@@ -7,6 +7,7 @@ require 'ripper-tags/default_formatter'
 require 'ripper-tags/emacs_formatter'
 require 'ripper-tags/vim_formatter'
 require 'ripper-tags/json_formatter'
+require 'ripper-tags/atom_ctags_formatter'
 
 module RipperTags
   def self.version() "0.3.4" end
@@ -59,7 +60,7 @@ module RipperTags
 
       opts.separator " "
 
-      opts.on("--format (emacs|json|custom)", "Set output format (default: vim)") do |fmt|
+      opts.on("--format (emacs|json|custom|atom)", "Set output format (default: vim)") do |fmt|
         options.format = fmt
       end
       opts.on("-e", "--emacs", "Output Emacs format (default if `--tag-file' is `TAGS')") do
@@ -137,6 +138,7 @@ module RipperTags
     when "emacs"  then RipperTags::EmacsFormatter
     when "json"   then RipperTags::JSONFormatter
     when "custom" then RipperTags::DefaultFormatter
+    when "atom"   then RipperTags::AtomCtagsFormatter
     else raise FatalError, "unknown format: #{options.format.inspect}"
     end.new(options)
   end
